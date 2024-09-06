@@ -1,0 +1,23 @@
+-> "Register new Upkeep"
+-> Select: time-based trigger
+-> Target function: performUpkeep
+-> Function inputs: 0x
+-> Specify your time schedule: */1 * * * *
+-> Upkeep name: Raffle Upkeep
+-> Admin address, is automatically added, but its the address of the account you using to sign
+-> Gas limit: 500000
+-> Starting balance: 26
+-> Press "Register Upkeep"
+    The above is for time-based but we don't need to follow it as we can simply go through custom logic
+
+
+
+
+
+
+//Getting our SubId for ChainLink VRF & Fund
+    1. Get our SubId for Chainlink VRF & Fund
+    2. Deploy our contract using the SubId
+    3. Register the contract with Chainlink VRF & it's SubId
+    4. Register the contract with Chainlink Automation
+    5. Run staging tests

@@ -13,20 +13,15 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     if (developmentChains.includes(network.name)) {
         log("local network detected")
         // const vrfCoordinatorV2_5Mock = await ethers.getContractAt("VRFCoordinatorV2_5Mock")
-        // const vrfCoordinatorV2_5Mock = await ethers.getContractAt("VRFCoordinatorV2_5Mock")
-        // log("vrfCoordinatorV2_5Mock :", vrfCoordinatorV2_5Mock)
+        // vrfCoordinatorV2_5Address = vrfCoordinatorV2_5Mock.address
+
         const deployment = await deployments.get("VRFCoordinatorV2_5Mock")
         vrfCoordinatorV2_5Mock = await ethers.getContractAt(deployment.abi, deployment.address)
-        // vrfCoordinatorV2_5Address = vrfCoordinatorV2_5Mock.address
-        // log("vrfCoordinatorV2_5Address:", vrfCoordinatorV2_5Address)
         vrfCoordinatorV2_5Address = deployment.address
-        // log('vrfCoordinatorV2_5Address:', vrfCoordinatorV2_5Address)
         const transactionResponse = await vrfCoordinatorV2_5Mock.createSubscription()
-        // log("transactionResponse:" , transactionResponse)
+        // console.log("transactionResponse:", transactionResponse)
         const transactionReceipt = await transactionResponse.wait(1)
         subscriptionId = transactionReceipt.events[0].args.subId
-        // console.log("......")
-        // console.log("subscriptionId : ", subscriptionId.toString())
         console.log(".....")
         console.log("subscriptionId : ", subscriptionId.toString())
         //Fund the subscription
