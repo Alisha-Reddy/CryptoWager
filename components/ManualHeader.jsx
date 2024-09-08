@@ -18,7 +18,13 @@ const ManualHeader = ({ walletModal, setWalletModal }) => {
     return (
         <div>
             {!isLoggedIn ? (
-                <button onClick={disconnect}> DISCONNECT WALLET </button>
+                <button
+                    className="p-2 bg-white m-5 rounded-sm text-black items-center"
+                    onClick={disconnect}
+                >
+                    {" "}
+                    DISCONNECT WALLET{" "}
+                </button>
             ) : (
                 <div className="p-2 bg-white w-20 m-5 rounded-sm text-black items-center">
                     <button onClick={() => setWalletModal(true)}>Connect</button>

@@ -47,6 +47,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         callbackGasLimit,
         interval,
     ]
+    console.log("enterance fee:", enteranceFee)
 
     const lottery = await deploy("Lottery", {
         from: deployer,
