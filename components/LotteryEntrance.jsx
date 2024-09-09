@@ -13,53 +13,51 @@ const LotteryEntrance = () => {
     const { isConnected, address } = useAccount()
     const account = useAccount()
     const chainId = account.chainId
-    console.log("chainId:", chainId)
-    // console.log(contractAddress[chainId][0])
-    const lotteryAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
+
 
     useEffect(() => {
-        const fetchContractAddress = async () => {
-            if (chainId && contractAddresses[chainId]) {
-                const lotaddress = contractAddresses[chainId][0]
-                setContractAddress(lotaddress)
-                console.log("Contract Address:", lotaddress)
-            } else {
-                console.error("Invalid chain ID or contract address not found for this chain")
-            }
-        }
-
         if (chainId) {
-            fetchContractAddress()
+            console.log("chainId:", chainId)
+            const lotAddress =
+                chainId in contractAddresses ? contractAddresses[chainId][0] : null
+            if (lotAddress) {
+                setContractAddress(lotAddress)
+                console.log("contract Address:", contractAddress)
+            } else {
+                console.error("Invalid chain ID or contact address not found for this chain")
+            }
         }
     }, [chainId])
 
-    // const {
-    //     data: fee,
-    //     isLoading,
-    //     error,
-    // } = useReadContract({
-    //     abi: [
-    //         {
-    //             inputs: [],
-    //             name: "getRequestConfirmations",
-    //             outputs: [
-    //                 {
-    //                     internalType: "uint256",
-    //                     name: "",
-    //                     type: "uint256",
-    //                 },
-    //             ],
-    //             stateMutability: "pure",
-    //             type: "function",
-    //         },
-    //     ],
-    //     address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
-    //     functionName: "getRequestConfirmations",
-    //     args: [],
-    //     enabled: !!contractAddress,
-    // })
-    // console.log("fee:", fee)
+        useEffect(() => {
+            if (typeof window !== "undefined" && window.ethereum && contractAddress) {
+                console.log("Using contractAddress:", contractAddress)
+                const provider = new ethers.providers.Web3Provider(window.ethereum)
+                const signer = provider.getSigner()
+                const lotteryContract = new ethers.Contract(contractAddress, abi, signer)
 
+                setContract(lotteryContract)
+            }
+        }, [contractAddress])
+
+    const enterLottery = async () => {
+        if (contract) {
+            try {
+                const feeInWei = ethers.utils.parseEther(enteranceFee)
+                console.log("Entering lottery with fee:", feeInWei.toString())
+                const tx = await contract.enterLottery({
+                    value: feeInWei,
+                    gasLimit: ethers.utils.hexlify(300000),
+                })
+                console.log("Transaction sent:", tx)
+                const receipt = await tx.wait()
+                console.log("Transaction confirmed:", receipt)
+            } catch (error) {
+                console.error("Error entering the lottery:", error)
+            }
+        }
+    }
+    
     const getEnteranceFee = async () => {
         if (contract) {
             try {
@@ -73,33 +71,16 @@ const LotteryEntrance = () => {
         }
     }
 
-    useEffect(() => {
-        if (typeof window !== "undefined" && window.ethereum) {
-            const web3provider = new ethers.providers.Web3Provider(window.ethereum)
-            const lotteryContract = new ethers.Contract(lotteryAddress, abi, web3provider)
 
-            setContract(lotteryContract)
-
-            // const fetchEnteranceFee = async () => {
-            //     const enteranceFee = await getEnteranceFee.toString()
-            //     console.log("Enterance Fee:", fee)
-            // }
-            // fetchEnteranceFee()
-            
-        }
-    },[])
-    
 
     useEffect(() => {
         async function updateUI() {
-            console.log("1")
             try {
                 if (isConnected) {
-                    console.log("2")
-                    const enteranceFee = await getEnteranceFee()
+                    const fee = await getEnteranceFee()
                     // const enteranceFee = await fee.toString()
-                    setEnteranceFee(enteranceFee)
-                    console.log("enteranceFee:", enteranceFee)
+                    setEnteranceFee(fee)
+                    console.log("enterance Fee:", fee)
                 }
             } catch (error) {
                 console.log(error)
@@ -108,14 +89,18 @@ const LotteryEntrance = () => {
         updateUI()
     }, [isConnected])
 
-    // console.log("fee:", ethers.utils.formatEther(enteranceFee))
-    // if (isLoading) return <div>Loading entrance fee...</div>
-    // if (error) {
-    //     console.log(error)
-    //     return <div>Error fetching entrance fee: {error.message}</div>
-    // }
-
-    return <div>Lottery entrance fee: {enteranceFee ? `${enteranceFee}` : "N/A"}</div>
+    return (
+        <div>
+            {address ? (
+                
+                <div>
+                    <button onClick={async function(){await enterLottery()}}>Enter Lottery</button> <br />
+                    Lottery entrance fee: {enteranceFee ? `${enteranceFee} ETH` : "N/A"} </div>
+        ): (
+            <div>Please Connect to a wallet</div>
+        )}
+        </div>
+    )
 }
 
 export default LotteryEntrance
