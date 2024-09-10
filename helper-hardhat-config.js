@@ -1,6 +1,10 @@
 const { ethers } = require("hardhat")
 
 const networkConfig = {
+    default: {
+        name: "hardhat",
+        keepersUpdateInterval: "30",
+    },
     11155111: {
         name: "sepolia",
         vrfCoordinatorV2_5: "0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B",
@@ -12,11 +16,16 @@ const networkConfig = {
         interval: "30", //30 sec
     },
     31337: {
-        name: "hardhat",
+        name: "localhost",
+        chainId: 31337,
         enteranceFee: ethers.utils.parseEther("0.005"),
         gasLane: "0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae",
         callbackGasLimit: "500000", //500,000
         interval: "30", //30 sec
+    },
+    1: {
+        name: "mainnet",
+        keepersUpdateInterval: "30",
     },
 }
 
