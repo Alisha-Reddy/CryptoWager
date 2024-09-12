@@ -12,6 +12,8 @@ const LotteryEntrance = () => {
     const [enteranceFee, setEnteranceFee] = useState(null)
     const [numPlayers, setNumPlayers] = useState("0")
     const [recentWinner, setRecentWinner] = useState("0")
+    const [isFetching, setIsFetching] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const { isConnected, address } = useAccount()
     const account = useAccount()
@@ -49,13 +51,18 @@ const LotteryEntrance = () => {
         if (contract) {
             try {
                 // console.log("1")
+                setIsFetching(true)
                 const fee = await contract.getEnteranceFee()
+                setIsLoading(true)
                 // console.log("fee:", fee)
                 const feeInEther = ethers.utils.formatEther(fee)
                 console.log("Enterance fee:", feeInEther)
                 return feeInEther
             } catch (error) {
                 console.error(error)
+            } finally {
+                setIsFetching(false) // Stop fetching
+                setIsLoading(false) // Stop processing
             }
         }
     }
@@ -176,23 +183,27 @@ const LotteryEntrance = () => {
         }
     }, [contract])
 
-
     return (
-        <div>
+        <div className="p-5">
+            <h1 className="py-4 px-4 font-bold text-3xl">Lottery</h1>
             {address ? (
-                <div>
+                <>
                     <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto"
                         onClick={async function () {
                             await enterLottery()
                         }}
                     >
-                        Enter Lottery
+                        {isLoading || isFetching ? (
+                            <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
+                        ) : (
+                            "Enter Raffle"
+                        )}{" "}
                     </button>{" "}
-                    <br />
-                    Lottery entrance fee: {enteranceFee ? `${enteranceFee} ETH` : "N/A"} <br />
-                    Number Of Players: {numPlayers} <br />
-                    Recent Winner: {recentWinner}
-                </div>
+                    <div>Lottery Entrance Fee: {enteranceFee ? `${enteranceFee} ETH` : "N/A"}</div>
+                    <div>The current nmber of players is: {numPlayers}</div>
+                    <div>The most previous winner was: {recentWinner}</div>
+                </>
             ) : (
                 <div>Please Connect to a wallet</div>
             )}

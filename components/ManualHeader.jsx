@@ -1,11 +1,11 @@
 import React from "react"
 import { useEffect, useState } from "react"
-import { useAccount, useConnect, useDisconnect } from "wagmi"
+import { useAccount, useDisconnect } from "wagmi"
+import { ConnectButton } from "@rainbow-me/rainbowkit"
 
-const ManualHeader = ({ walletModal, setWalletModal }) => {
+const ManualHeader = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const { isConnected } = useAccount()
-    const { connect, connectors } = useConnect()
+    const { isConnected, address } = useAccount()
     const { disconnect } = useDisconnect()
 
     useEffect(() => {
@@ -17,17 +17,16 @@ const ManualHeader = ({ walletModal, setWalletModal }) => {
     }, [isConnected])
     return (
         <div>
-            {!isLoggedIn ? (
+            {!isLoggedIn && address? (
                 <button
                     className="p-2 bg-white m-5 rounded-sm text-black items-center"
                     onClick={disconnect}
                 >
-                    {" "}
-                    DISCONNECT WALLET{" "}
+                    Connected to {address.slice(0, 6)}...{address.slice(address.length - 4)}
                 </button>
             ) : (
-                <div className="p-2 bg-white w-20 m-5 rounded-sm text-black items-center">
-                    <button onClick={() => setWalletModal(true)}>Connect</button>
+                <div className="p-2 bg-white m-5 rounded-sm text-black items-center">
+                    <ConnectButton label="Connect wallet" />
                 </div>
             )}
         </div>

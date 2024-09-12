@@ -1,9 +1,10 @@
 import ManualHeader from "./ManualHeader"
-import Modal from "./Modal"
 import LotteryEntrance from "./LotteryEntrance"
+import Header from "./Header"
+import Footer from "./Footer"
 
 
 // SVG
 import Close from "./SVG/Close"
 
-export { ManualHeader, Modal, LotteryEntrance, Close }
+export { ManualHeader, LotteryEntrance, Header, Footer, Close }
