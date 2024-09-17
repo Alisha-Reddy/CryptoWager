@@ -5,6 +5,7 @@ import { useState, useEffect } from "react"
 import { ethers } from "ethers"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import { useReadContract } from "wagmi"
 
 const LotteryEntrance = () => {
     const [contractAddress, setContractAddress] = useState(null)
@@ -19,6 +20,7 @@ const LotteryEntrance = () => {
     const account = useAccount()
     const chainId = account.chainId
 
+    
     // Set contract address based on chainId
     useEffect(() => {
         if (chainId) {
@@ -26,13 +28,13 @@ const LotteryEntrance = () => {
             const lotAddress = chainId in contractAddresses ? contractAddresses[chainId][0] : null
             if (lotAddress) {
                 setContractAddress(lotAddress)
-                console.log("contract Address:", contractAddress)
+                console.log("contract Address:", lotAddress)
             } else {
                 console.error("Invalid chain ID or contact address not found for this chain")
             }
         }
     }, [chainId])
-
+    
     // Initialize contract instance
     useEffect(() => {
         if (typeof window !== "undefined" && window.ethereum && contractAddress) {
@@ -40,11 +42,12 @@ const LotteryEntrance = () => {
             const provider = new ethers.providers.Web3Provider(window.ethereum)
             const signer = provider.getSigner()
             const lotteryContract = new ethers.Contract(contractAddress, abi, signer)
-
+            
             setContract(lotteryContract)
             // console.log(contract)
         }
     }, [contractAddress])
+    
 
     // Fetch entrance fee from contract
     const getEntranceFee = async () => {
@@ -110,6 +113,7 @@ const LotteryEntrance = () => {
             if (isConnected) {
                 // const entranceFeeFromCall = await getEntranceFee()
                 const numPlayersFromCall = await getNumberOfPlayers()
+                console.log("num players:", numPlayersFromCall)
                 const recentWinnerFromCall = await getRecentWinner()
 
                 // setEnteranceFee(entranceFeeFromCall)
@@ -171,6 +175,7 @@ const LotteryEntrance = () => {
                 console.log("WinnerPicked event detected:", winner)
                 setRecentWinner(winner) // Automatically updates the recent winner in the UI
                 toast.success(`New Winner: ${winner}`)
+                updateUI()
             }
 
             // Listen for the WinnerPicked event

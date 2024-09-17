@@ -1,17 +1,19 @@
 import React from "react"
 import { ConnectButton } from "@rainbow-me/rainbowkit"
 import { useAccount } from "wagmi"
+import Image from "next/image"
+import images from "@/images/index"
 
 const Header = () => {
     const { isConnected, address } = useAccount()
     const account = useAccount()
     
-
     const isLocalhost = account?.chainId === 31337
 
     return (
         <nav className="p-5 border-b-2 flex flex-row">
-            <h1 className="py-4 px-4 font-bold text-3xl"> CryptoWager</h1>
+            <Image className="w-20 rounded-full" src={images.logo} alt="logo" /> 
+            <h6>CryptoWager</h6>
             <div className="ml-auto py-2 px-4">
                 {isConnected && isLocalhost ? (
                     <button className="p-2 bg-white rounded-lg text-black ">

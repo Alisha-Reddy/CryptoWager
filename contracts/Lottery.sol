@@ -103,7 +103,7 @@ contract Lottery is VRFConsumerBaseV2Plus, AutomationCompatibleInterface {
     {
         bool isOpen = (LotteryState.OPEN == s_lotteryState);
         bool timePassed = (block.timestamp - s_lastTimeStamp) > i_interval;
-        bool hasPlayers = (s_players.length > 0);
+        bool hasPlayers = (s_players.length == 5);
         bool hasBalance = address(this).balance > 0;
         upKeepNeeded = (isOpen && timePassed && hasPlayers && hasBalance);
 
