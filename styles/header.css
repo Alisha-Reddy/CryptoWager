@@ -1,0 +1,41 @@
+.menu-slide {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    /* Start off-screen to the left */
+    width: 300px;
+    /* Adjust the width as needed */
+    height: 45%;
+    /* Full height */
+    background-color: rgba(250, 235, 215, 0.279);
+    transition: left 0.3s ease-out;
+    /* Smooth sliding effect */
+    box-shadow: 0px 0px 10px 10px rgb(0, 0, 255);
+
+}
+
+.menu-slide.open {
+    left: 0;
+    /* Slide in from the left */
+}
+
+.btn{
+    padding: 4px 20px;
+    color: #f3f954;
+    font-family: 'Raleway', sans-serif;
+    border-radius: 0;
+    text-transform: uppercase;
+    overflow: hidden;
+    position: relative;
+    margin: 5px 15px;
+    background-color: #000923;
+    border: 1px solid #f3f954;
+    border-radius: 8px;
+}
+
+.btn:hover{
+    background: #f3f954;
+    color: black;
+    -webkit-box-reflect: below 1px linear-gradient(transparent, rgba(0, 0, 0, 0.333));
+    box-shadow: 0 0 5px #f3f954, 0 0 15px #f3f954, 0 0 25px #f3f954, 0 0 100px #f3f954;
+}
