@@ -1,5 +1,5 @@
 import Image from "next/image"
-// import images from "../Images/index"
+import images from "@/images/index"
 import { Close } from "."
 
 export default () => {
@@ -23,14 +23,18 @@ export default () => {
     ]
 
     return (
-        <footer className="pt-10" style={{ background: "#000014" }}>
+        <footer className="pt-10 bottom-0" style={{ background: "#000014" }}>
             <div className="max-w-screen-2xl mx-auto px-4 text-gray-200 md:px-8">
                 <div className="justify-between sm:flex">
                     <div className="space-y-6">
                         <div className="flex items-center">
                             {/* <Image className="w-24 rounded-full" src={images.symbol} alt="logo" /> */}
-
-                            <p className="text-2xl font-serif pl-2 text-white ">A L I S H A</p>
+                            <div className=" items-center gap-x-3 flex">
+                                <Image className="w-12 rounded-full" src={images.logo} alt="logo" />
+                                <p className="text-2xl font-serif font-bold text-yellow-200 ">
+                                    CryptoWager
+                                </p>
+                            </div>{" "}
                         </div>{" "}
                         <p className="max-w-md">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore quod

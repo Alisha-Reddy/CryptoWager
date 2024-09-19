@@ -17,8 +17,12 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: #0c2160;
+  color: black;
+  background: #c8d5fa;
+}
+
+footer {
+  margin-top: auto;
 }
 
 @layer utilities {
@@ -27,4 +31,11 @@ body {
   }
 }
 
+.App{
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
 
