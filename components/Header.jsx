@@ -28,9 +28,9 @@ const Header = () => {
     return (
         <nav style={{ background: "#000014" }}>
             <div className={`p-5 flex mt-0 ${isMenuOpen ? "border-b-2" : ""}`}>
-                <div className=" items-center gap-x-3 flex">
-                    <Image className="w-12 rounded-full" src={images.logo} alt="logo" />
-                    <p className="text-2xl font-serif font-bold text-yellow-200 ">CryptoWager</p>
+                <div className=" items-center gap-x-4 flex">
+                    <Image className="w-10 rounded-full" src={images.logo} alt="logo" />
+                    <p className="name text-4xl text-yellow-200 ">C r y p t o W a g e r</p>
                 </div>
 
                 <div className={`flex-1 hidden lg:flex  justify-center items-center mx-4  `}>
@@ -54,7 +54,7 @@ const Header = () => {
                             {address.slice(0, 6)}......{address.slice(-4)}{" "}
                         </button>
                     ) : (
-                        <ConnectButton label="Connect wallet" style={{ background: "#000923" }} /> // Default connect button
+                        <ConnectButton label="Connect wallet" style={{}} />
                     )}{" "}
                 </div>
             </div>
@@ -65,7 +65,7 @@ const Header = () => {
                     <div className=" p-2 ">
                         <button
                             onClick={() => toggleMenu()}
-                            className="text-lg font-serif flex items-center gap-x-1"
+                            className=" text-xl text-yellow-200 flex items-center gap-x-1"
                         >
                             {" "}
                             <Menu />

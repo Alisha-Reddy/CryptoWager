@@ -1,0 +1,10 @@
+.cards{
+    background: #000014;
+    color: aliceblue;
+    max-width: 75%;
+}
+
+.cards h1{
+    font-family: "Gorditas", serif;
+    text-shadow: 2px 2px #6e4949;
+}

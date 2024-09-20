@@ -1,5 +1,5 @@
 import Head from "next/head"
-import { ManualHeader, Header, LotteryEntrance, Footer } from "../components/index"
+import { ManualHeader, Header, LotteryEntrance, Main, Footer } from "../components/index"
 import { useState } from "react"
 
 import Image from "next/image"
@@ -10,10 +10,12 @@ export default function Home() {
         <section className="App">
             <Head>
                 <title> CryptoWager </title>
+                
             </Head>
             <Header />
             {/* <ManualHeader walletModal={walletModal} setWalletModal={setWalletModal} /> */}
-            <LotteryEntrance />
+            {/* <LotteryEntrance /> */}
+            <Main/>
             <Footer />
         </section>
     )

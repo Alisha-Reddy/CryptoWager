@@ -9,6 +9,7 @@ import { rainbowWallet, walletConnectWallet } from "@rainbow-me/rainbowkit/walle
 
 import "../styles/globals.css"
 import "../styles/header.css"
+import "../styles/cards.css"
 import "react-toastify/dist/ReactToastify.css"
 import "@rainbow-me/rainbowkit/styles.css"
 

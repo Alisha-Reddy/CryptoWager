@@ -1,6 +1,6 @@
 import Image from "next/image"
 import images from "@/images/index"
-import { Close } from "."
+import { Facebook, Instagram, Github, Linkedin } from "../components/index"
 
 export default () => {
     const footerNavs = [
@@ -23,51 +23,39 @@ export default () => {
     ]
 
     return (
-        <footer className="pt-10 bottom-0" style={{ background: "#000014" }}>
-            <div className="max-w-screen-2xl mx-auto px-4 text-gray-200 md:px-8">
-                <div className="justify-between sm:flex">
-                    <div className="space-y-6">
-                        <div className="flex items-center">
-                            {/* <Image className="w-24 rounded-full" src={images.symbol} alt="logo" /> */}
-                            <div className=" items-center gap-x-3 flex">
-                                <Image className="w-12 rounded-full" src={images.logo} alt="logo" />
-                                <p className="text-2xl font-serif font-bold text-yellow-200 ">
-                                    CryptoWager
-                                </p>
-                            </div>{" "}
-                        </div>{" "}
-                        <p className="max-w-md">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore quod
-                            tempora facilis velit laborum.
-                        </p>
-                        <ul className="flex felx-wrap items-center gap-4 text-sm sm:text-base">
-                            {footerNavs.map((item, idx) => {
-                                return (
-                                    <li
-                                        key={idx}
-                                        className="text-gray-200 hover:text-white duration-150"
-                                    >
-                                        <a href={item.href}>{item.name}</a>
-                                    </li>
-                                )
-                            })}
-                        </ul>
-                    </div>
-                    <div className="mt-6">
-                        <p className="text-gray-200 font-semibold">Get the app</p>
-                        <div className="flex items-center gap-3 mt-0 ">
-                            <a href="#" className="mt-0 block sm:mt-3">
-                                <Close></Close>
-                            </a>
-                            <a href="#" className="mt-0 block sm:mt-3">
-                                <Close></Close>
-                            </a>
-                        </div>
-                    </div>
+        <footer style={{ background: "#000014", color: "white" }}>
+            <div className="flex items-center mt-3 mb-0">
+                <div className=" items-center gap-x-3 flex">
+                    <Image className="w-6 rounded-full" src={images.logo} alt="logo" />
+                    <p className="name text-2xl text-yellow-200 ">C r y p t o W a g e r</p>
                 </div>
-                <div className="mt-1 py-10 border-t md:text-center">
-                    <p>© 2024 Alisha Reddy Kondapu. All rights reserved.</p>
-                </div>
+            </div>
+            <div className="flex flex-col items-center justify-center  ">
+                <h1 className="text-2xl font-bold mb-3 mt-0 text-yellow-200">You can find me at</h1>
+                <ul className="flex gap-2 mb-3">
+                    <li>
+                        <a href="https://www.linkedin.com/in/alishaReddyKondapu/">
+                            <Linkedin />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/Alisha-Reddy">
+                            <Github />
+                        </a>
+                    </li>
+                    <li>
+                        <Facebook />
+                    </li>
+                    <li>
+                        <Instagram />
+                    </li>
+                </ul>
+            </div>
+            <div
+                className=" text-center py-2 "
+                style={{ background: "#eaeffc", color: "#000014", fontWeight: "bold" }}
+            >
+                <p>Copyright © 2024; Designed by ALISHA REDDY KONDAPU.</p>
             </div>
         </footer>
     )

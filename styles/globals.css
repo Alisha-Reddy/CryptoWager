@@ -18,7 +18,8 @@
 
 body {
   color: black;
-  background: #c8d5fa;
+  background: #eaeffc;
+  font-family: "Comfortaa", sans-serif;
 }
 
 footer {
@@ -32,7 +33,6 @@ footer {
 }
 
 .App{
-  text-align: center;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

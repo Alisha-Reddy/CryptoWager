@@ -1,13 +1,12 @@
 import React from "react"
 import { abi, contractAddresses } from "../constants"
-import { useAccount } from "wagmi"
 import { useState, useEffect } from "react"
+import { useAccount } from "wagmi"
 import { ethers } from "ethers"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-
-const LotteryEntrance = () => {
+const Main = () => {
     const [contractAddress, setContractAddress] = useState(null)
     const [contract, setContract] = useState(null)
     const [enteranceFee, setEnteranceFee] = useState(null)
@@ -20,7 +19,6 @@ const LotteryEntrance = () => {
     const account = useAccount()
     const chainId = account.chainId
 
-    
     // Set contract address based on chainId
     useEffect(() => {
         if (chainId) {
@@ -34,7 +32,7 @@ const LotteryEntrance = () => {
             }
         }
     }, [chainId])
-    
+
     // Initialize contract instance
     useEffect(() => {
         if (typeof window !== "undefined" && window.ethereum && contractAddress) {
@@ -42,12 +40,11 @@ const LotteryEntrance = () => {
             const provider = new ethers.providers.Web3Provider(window.ethereum)
             const signer = provider.getSigner()
             const lotteryContract = new ethers.Contract(contractAddress, abi, signer)
-            
+
             setContract(lotteryContract)
             // console.log(contract)
         }
     }, [contractAddress])
-    
 
     // Fetch entrance fee from contract
     const getEntranceFee = async () => {
@@ -87,7 +84,7 @@ const LotteryEntrance = () => {
         if (contract) {
             try {
                 const numOfPlayers = await contract.getRecentWinner()
-                return numOfPlayers
+                return numOfPlayers.toString()
             } catch (error) {
                 console.error(error)
             }
@@ -188,32 +185,105 @@ const LotteryEntrance = () => {
         }
     }, [contract])
 
+
     return (
-        <div className="p-5">
-            <h1 className="py-4 px-4 font-bold text-3xl">Lottery</h1>
-            {address ? (
-                <>
-                    <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto"
-                        onClick={async function () {
-                            await enterLottery()
-                        }}
-                    >
-                        {isLoading || isFetching ? (
-                            <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
-                        ) : (
-                            "Enter Raffle"
-                        )}{" "}
-                    </button>{" "}
-                    <div>Lottery Entrance Fee: {enteranceFee ? `${enteranceFee} ETH` : "N/A"}</div>
-                    <div>The current nmber of players is: {numPlayers}</div>
-                    <div>The most previous winner was: {recentWinner}</div>
-                </>
-            ) : (
-                <div>Please Connect to a wallet</div>
-            )}
-        </div>
+        <main className="m-10">
+            <div className="flex flex-col items-center mb-20">
+                <h1
+                    className=" text-5xl text-yellow-300"
+                    style={{ textShadow: "2px 2px #000014", fontFamily: "'Gorditas', serif" }}
+                >
+                    WELCOME TO CRYPTOWAGER
+                </h1>
+                <p
+                    className="text-center text-lg p-3 "
+                    style={{ fontWeight: "bolder", color: "#000014" }}
+                >
+                    CryptoWager makes it easy to dive into a decentralized lottery. Just enter, and
+                    who knows? You might be the next lucky winner. <br /> No fuss, just simple and
+                    fair play. Jump in and take your shot!
+                </p>
+            </div>
+            <div className="flex flex-col gap-10">
+                <div className="cards bg-gray-300 ">
+                    <h1>Lottery Value</h1>
+                    {!isConnected ? (
+                        <>
+                            <h3>Connect to See the Jackpot</h3>
+                            <p>
+                                To check out the current jackpot value, please connect your wallet
+                                first. Once connected, you'll see the prize and can enter for a
+                                chance to win!
+                            </p>
+                        </>
+                    ) : (
+                        <>
+                            <button
+                                className="btn hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto"
+                                onClick={async function () {
+                                    await enterLottery()
+                                }}
+                            >
+                                {isLoading || isFetching ? (
+                                    <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
+                                ) : (
+                                    "Buy Lottery"
+                                )}{" "}
+                            </button>
+                            <h3>What’s Up for Grabs?</h3>
+                            <h4>Lottery Value: {enteranceFee ? `${enteranceFee} ETH` : "N/A"}</h4>
+                            <p>
+                                The jackpot is sitting at{" "}
+                                {enteranceFee ? `${enteranceFee} ETH` : "N/A"}! Ready to take your
+                                shot? Click <b>"Buy Lottery"</b> to enter and seize your chance to
+                                win this prize.
+                            </p>
+                        </>
+                    )}
+                </div>
+                <div>
+                    <div className="cards  p-10 ">
+                        <h1 className="text-5xl text-yellow-200 ">Lottery Status</h1>
+                        <h3 className="my-5 text-2xl" style={{ fontFamily: "'Gorditas', serif" }}>
+                            How’s the Lottery Going?
+                        </h3>
+                        <p>
+                            Click on the <b>"Lottery Status"</b> button to see whether we're open
+                            for entries, in the process of drawing, or waiting for the next round.
+                            Stay informed and keep an eye on this space.
+                        </p>
+                    </div>
+                </div>
+                <div className="cards bg-gray-300 text-center">
+                    <h1>Lottery Value</h1>
+                    <h3>What’s Up for Grabs?</h3>
+                    <p>
+                        Check out the current jackpot value. Your next big win could be just a
+                        ticket away! <br /> Click below to buy a lottery entry and get a chance to
+                        claim this prize.
+                    </p>
+                </div>
+                <div className="cards bg-gray-300 text-center">
+                    <h1>Lottery Value</h1>
+                    <h3>What’s Up for Grabs?</h3>
+                    <p>
+                        Check out the current jackpot value. Your next big win could be just a
+                        ticket away! <br /> Click below to buy a lottery entry and get a chance to
+                        claim this prize.
+                    </p>
+                </div>
+                <div className="cards bg-gray-300 text-center">
+                    <h1>Lottery Value</h1>
+                    <h3>What’s Up for Grabs?</h3>
+                    <p>
+                        Check out the current jackpot value. Your next big win could be just a
+                        ticket away! <br /> Click below to buy a lottery entry and get a chance to
+                        claim this prize.
+                    </p>
+                </div>
+            </div>
+        </main>
     )
 }
 
-export default LotteryEntrance
+export default Main

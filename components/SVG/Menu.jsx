@@ -11,10 +11,10 @@ const menu = () => {
       >
           <path
               d="M4 12H20M4 8H20M4 16H12"
-              stroke="#000000"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              stroke="#fff"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
           />
       </svg>
   )
