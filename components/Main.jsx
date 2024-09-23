@@ -198,7 +198,7 @@ const Main = () => {
                     </h1>
                 </div>
                 <div
-                    className="text-center text-lg p-3 "
+                    className="text-center text-md p-3 "
                     style={{ fontWeight: "bolder", color: "#000014" }}
                 >
                     CryptoWager makes it easy to dive into a decentralized lottery. Just enter, and
@@ -208,126 +208,137 @@ const Main = () => {
             </div>
 
             <div className="bg-violet-50">
-                <div className="cards w-full lg:w-3/4 lg:p-10 my-5 ">
-                    <div className="flex flex-row flex-1  gap-1">
-                        <div className="flex-1 ">
-                            <h1 className="md:text-4xl text-yellow-200 text-xl">Lottery Value</h1>
-                            {!isConnected ? (
-                                <h3
-                                    className="my-5 text-2xl"
-                                    style={{ fontFamily: "'Gorditas', serif" }}
-                                >
-                                    Connect to See the Jackpot
-                                </h3>
-                            ) : (
-                                <>
+                <div className="bg-neutral-600 flex justify-start p-0">
+                    <div className="cards w-full lg:w-3/4 p-5 lg:p-10 my-5 ">
+                        <div className="flex flex-row flex-1  gap-1">
+                            <div className="flex-1 ">
+                                <h1 className="md:text-4xl text-yellow-200 text-xl">
+                                    Lottery Value
+                                </h1>
+                                {!isConnected ? (
                                     <h3
-                                        className="my-4 text-2xl"
+                                        className="my-5 text-2xl"
                                         style={{ fontFamily: "'Gorditas', serif" }}
                                     >
-                                        What’s Up for Grabs?
+                                        Connect to See the Jackpot
                                     </h3>
-                                    <h4 className="text-lg pb-3">
-                                        Lottery Value:{" "}
-                                        <b>{enteranceFee ? `${enteranceFee} ETH` : "N/A"}</b>
-                                    </h4>
-                                </>
-                            )}
+                                ) : (
+                                    <>
+                                        <h3 className="my-4 text-lg font-extrabold text-shadow ">
+                                            {" "}
+                                            <i>What’s Up for Grabs?</i>
+                                        </h3>
+                                        <h4 className="text-lg pb-3">
+                                            Lottery Value:{" "}
+                                            <b>{enteranceFee ? `${enteranceFee} ETH` : "N/A"}</b>
+                                        </h4>
+                                    </>
+                                )}
+                            </div>
+                            <div className="flex-1 flex items-center justify-center ">
+                                {isConnected ? (
+                                    <button
+                                        className="btn text-xl lg:text-4xl"
+                                        onClick={async function () {
+                                            await enterLottery()
+                                        }}
+                                    >
+                                        {isLoading || isFetching ? (
+                                            <div className="animate-spin spinner-border h-8 w-8 border-b-4 rounded-full"></div>
+                                        ) : (
+                                            "Buy Lottery"
+                                        )}
+                                    </button>
+                                ) : (
+                                    ""
+                                )}
+                            </div>
                         </div>
-                        <div className="flex-1 flex items-center justify-center ">
-                            {isConnected ? (
-                                <button
-                                    className="btn text-xl lg:text-4xl"
-                                    onClick={async function () {
-                                        await enterLottery()
-                                    }}
-                                >
-                                    {isLoading || isFetching ? (
-                                        <div className="animate-spin spinner-border h-8 w-8 border-b-4 rounded-full"></div>
-                                    ) : (
-                                        "Buy Lottery"
-                                    )}
-                                </button>
-                            ) : (
-                                ""
-                            )}
-                        </div>
+                        {!isConnected ? (
+                            <p>
+                                To check out the current jackpot value, please connect your wallet
+                                first. <br />
+                                Once connected, you'll see the prize and can enter for a chance to
+                                win!
+                            </p>
+                        ) : (
+                            <p>
+                                The jackpot is sitting at{" "}
+                                <b>
+                                    <i > {enteranceFee ? `${enteranceFee} ETH` : "N/A"} </i>
+                                </b>
+                                ! Ready to take your shot?
+                                <br /> Click <b>"Buy Lottery"</b> to enter and seize your chance to
+                                win this prize.
+                            </p>
+                        )}
                     </div>
-                    {!isConnected ? (
-                        <p>
-                            To check out the current jackpot value, please connect your wallet
-                            first. <br />
-                            Once connected, you'll see the prize and can enter for a chance to win!
-                        </p>
-                    ) : (
-                        <p>
-                            The jackpot is sitting at {enteranceFee ? `${enteranceFee} ETH` : "N/A"}
-                            ! Ready to take your shot?
-                            <br /> Click <b>"Buy Lottery"</b> to enter and seize your chance to win
-                            this prize.
-                        </p>
-                    )}
                 </div>
-                <div className="cards w-full lg:w-3/4 lg:p-10 my-5 ">
-                    <div className="flex flex-row flex-1  gap-1">
-                        <div className="flex-1 ">
-                            <h1 className="md:text-4xl text-yellow-200 text-xl">Lottery Status</h1>
-                            {!isConnected ? (
-                                <h3
-                                    className="my-5 text-2xl"
-                                    style={{ fontFamily: "'Gorditas', serif" }}
-                                >
-                                    Connect to Check the Status
-                                </h3>
-                            ) : (
-                                <>
+                <div className="bg-neutral-600 flex justify-end p-0">
+                    <div className="cards w-full lg:w-3/4 lg:p-10 my-5 p-5 ">
+                        <div className="flex flex-row flex-1  gap-1">
+                            <div className="flex-1 ">
+                                <h1 className="md:text-4xl text-yellow-200 text-xl">
+                                    Lottery Status
+                                </h1>
+                                {!isConnected ? (
                                     <h3
-                                        className="my-4 text-2xl"
+                                        className="my-5 text-2xl"
                                         style={{ fontFamily: "'Gorditas', serif" }}
                                     >
-                                        Curious About the Current Status?
+                                        Connect to Check the Status
+                                    </h3>
+                                ) : (
+                                    <>
+                                        <h3 className="my-4 text-lg font-extrabold">
+                                            <i>Curious About the Current Status?</i>
                                         </h3>
-                                        
+
                                         <h4 className="text-lg pb-3">
-                                            
-                                        Lottery Status:{" "}
-                                        <b>{enteranceFee ? `${enteranceFee} ETH` : "N/A"}</b>
-                                    </h4>
-                                </>
-                            )}
-                        </div>
-                        <div className="flex-1 flex items-center justify-center ">
-                            {isConnected ? (
-                                <button
-                                    className="btn text-xl lg:text-4xl"
-                                    onClick={async function () {
-                                        await enterLottery()
-                                    }}
-                                >
-                                    {isLoading || isFetching ? (
-                                        <div className="animate-spin spinner-border h-8 w-8 border-b-4 rounded-full"></div>
+                                            Lottery Status:{" "}
+                                            <b>{enteranceFee ? `${enteranceFee} ETH` : "N/A"}</b>
+                                        </h4>
+                                    </>
+                                )}
+                            </div>
+                            <div className="flex-1 flex items-center justify-center ">
+                                {isConnected ? (
+                                    showStatus ? (
+                                        <div>STATUS</div>
                                     ) : (
-                                        "Buy Lottery"
-                                    )}
-                                </button>
-                            ) : (
-                                ""
-                            )}
+                                        <button
+                                            className="btn text-xl lg:text-4xl"
+                                            onClick={() => setShowStatus(true)}
+                                        >
+                                            {isLoading || isFetching ? (
+                                                <div className="animate-spin spinner-border h-8 w-8 border-b-4 rounded-full"></div>
+                                            ) : (
+                                                "check Status"
+                                            )}
+                                        </button>
+                                    )
+                                ) : (
+                                    ""
+                                )}
+                            </div>
                         </div>
+                        {!isConnected ? (
+                            <p>
+                                To check the current lottery status, please connect your wallet
+                                first. <br /> Once connected, you'll see if we're open for entries,
+                                drawing, or waiting for the next round!
+                            </p>
+                        ) : (
+                            <p>
+                                Click the{" "}
+                                <b>
+                                    <i>Lottery Status</i>
+                                </b>{" "}
+                                button to check if we’re open for entries, drawing, or waiting for
+                                the next round. Stay updated!
+                            </p>
+                        )}
                     </div>
-                    {!isConnected ? (
-                        <p>
-                            To see the current lottery status, please connect your wallet first.
-                            Once connected, you’ll be able to find out if we’re open for entries, in
-                            the process of drawing, or waiting for the next round!
-                        </p>
-                    ) : (
-                        <p>
-                            Click on the "Lottery Status" button to see whether we’re open for
-                            entries, in the process of drawing, or waiting for the next round. Stay
-                            informed and keep an eye on this space!
-                        </p>
-                    )}
                 </div>
                 <div className=" bg-slate-400 w-full my-5 relative">
                     <div className="cards w-full lg:w-3/4 p-10 absolute lg:right-0">
@@ -356,8 +367,8 @@ const Main = () => {
                     <h3>What’s Up for Grabs?</h3>
                     <p>
                         Check out the current jackpot value. Your next big win could be just a
-                        ticket away! <br /> Click below to buy a lottery entry and get a chance to
-                        claim this prize.
+                        ticket away! Click below to buy a lottery entry and get a chance to claim
+                        this prize.
                     </p>
                 </div>
                 <div className="cards bg-gray-300 text-center">
