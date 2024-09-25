@@ -299,7 +299,7 @@ const Main = () => {
                                             <b>{enteranceFee ? `${enteranceFee} ETH` : "N/A"}</b>
                                         </h4>
                                     </>
-                                )}
+                                )}  
                             </div>
                             <div className="flex-1 flex items-center justify-center ">
                                 {isConnected ? (
