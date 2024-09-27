@@ -2,7 +2,50 @@
     position: relative;
     background: #000014;
     color: aliceblue;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+/* .join {
+    position: relative;
+    border: 1px solid rgb(20, 112, 255);
+    background-color: rgb(20, 112, 255);
+    color: white;
+    text-align: center;
+    border-radius: 0.25rem;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9375rem;
+    line-height: 1.125;
+    text-decoration: none;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+} */
+
+/* .cards::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg,
+                transparent,
+                rgba(255, 255, 255, 0.378),
+                transparent);
+    transition: all 0.6s ease;
+}
+
+.cards:hover::before{
+    left: 100%;
+} */
+
+.cards:hover{
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 8px #5c6970;
+}
+
+
 
 .cards h1{
     font-family: "Gorditas", serif;

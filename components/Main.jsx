@@ -236,8 +236,12 @@ const Main = () => {
             <div className="flex flex-col items-center mb-20">
                 <div>
                     <h1
-                        className=" text-5xl text-yellow-300 text-center"
-                        style={{ textShadow: "2px 2px #000014", fontFamily: "'Gorditas', serif" }}
+                        className=" text-5xl  text-center"
+                        style={{
+                            textShadow: "2px 2px 3px #fde047",
+                            color: "#020253",
+                            fontFamily: "'Gorditas', serif",
+                        }}
                     >
                         WELCOME TO CRYPTOWAGER
                     </h1>
@@ -252,7 +256,7 @@ const Main = () => {
                 </div>
             </div>
 
-            <div className="bg-violet-50">
+            <div>
                 {/* ENTER LOTTERY FEE */}
                 <div className=" flex justify-start p-0">
                     <div className="cards w-full lg:w-3/4 p-5 lg:p-10 my-5 ">
@@ -360,11 +364,7 @@ const Main = () => {
                                             className="btn text-xl lg:text-4xl"
                                             onClick={() => setShowStatus(true)}
                                         >
-                                            {isLoading || isFetching ? (
-                                                <div className="animate-spin spinner-border h-8 w-8 border-b-4 rounded-full"></div>
-                                            ) : (
-                                                "check Status"
-                                            )}
+                                            Check Status
                                         </button>
                                     )
                                 ) : (
@@ -433,9 +433,8 @@ const Main = () => {
                             </p>
                         ) : recentWinner ? (
                             <p>
-                                    No one has claimed the prize just yet.
-                                    <br /> Maybe you’ll be the first to
-                                make it happen!
+                                No one has claimed the prize just yet.
+                                <br /> Maybe you’ll be the first to make it happen!
                             </p>
                         ) : (
                             ""
@@ -463,29 +462,32 @@ const Main = () => {
                                         <h3 className="my-4 text-lg font-extrabold text-shadow ">
                                             <i>Connect to See Who’s Playing</i>
                                         </h3>
-                                        <div className="players-container">
-                                            {players.length > 0 ? (
-                                                <ul>
-                                                    {players.map((playerAddress, index) => (
-                                                        <li key={index}>
-                                                            {index + 1}.  {playerAddress}
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            ) : (
-                                                <p>No players have joined yet.</p>
-                                            )}
-                                        </div>
+                                        {isConnected ? (
+                                            <div className="players-container">
+                                                {players.length > 0 ? (
+                                                    <ul>
+                                                        {players.map((playerAddress, index) => (
+                                                            <li key={index}>
+                                                                {index + 1}. {playerAddress}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                ) : (
+                                                    <p>No players have joined yet.</p>
+                                                )}
+                                            </div>
+                                        ) : (
+                                            ""
+                                        )}
                                     </>
                                 )}
                             </div>
                             <div className="flex-1 flex items-start justify-center ">
-                                {isConnected &&
-                                    players.length ? (
-                                        <div className="showCase">
-                                            {players.length} Player(s)
-                                        </div>
-                                    ) : ""}
+                                {isConnected && players.length ? (
+                                    <div className="showCase">{players.length} Player(s)</div>
+                                ) : (
+                                    ""
+                                )}
                             </div>
                         </div>
                         {!isConnected ? (
@@ -498,7 +500,6 @@ const Main = () => {
                         )}
                     </div>
                 </div>
-
             </div>
         </main>
     )
