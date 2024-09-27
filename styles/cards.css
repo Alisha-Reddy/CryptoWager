@@ -17,3 +17,20 @@
     margin: 50px;
     
 } */
+
+.showCase{
+    width: 40%;
+    height: 30%;
+    font-size: 140%;
+    background: rgb(254 240 138);
+    padding: 5px 10px;
+    margin: 5px 0px;
+    color: #000014;
+    -webkit-box-reflect: below 1px linear-gradient(transparent, #000000);
+    box-shadow: 0 0 5px rgb(254 240 138), 0 0 15px rgb(254 240 138), 0 0 25px rgb(254 240 138), 0 0 100px rgb(254 240 138);
+    font-weight: bolder;
+    display: inline-flex;
+    justify-content: center;
+    text-align: center;
+    /* font-size: larger; */
+}

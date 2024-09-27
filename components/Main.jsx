@@ -12,6 +12,8 @@ const Main = () => {
     const [enteranceFee, setEnteranceFee] = useState(null)
     const [numPlayers, setNumPlayers] = useState("0")
     const [recentWinner, setRecentWinner] = useState("0")
+    const [lotteryStatus, setLotteryStatus] = useState("0")
+    const [players, setPlayers] = useState([])
     const [isFetching, setIsFetching] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [showStatus, setShowStatus] = useState(false)
@@ -47,7 +49,7 @@ const Main = () => {
         }
     }, [contractAddress])
 
-    // Fetch entrance fee from contract
+    // Call function to Fetch entrance fee from contract
     const getEntranceFee = async () => {
         if (contract) {
             try {
@@ -68,7 +70,7 @@ const Main = () => {
         }
     }
 
-    // Get number of players
+    // Call function to Get number of players
     const getNumberOfPlayers = async () => {
         if (contract) {
             try {
@@ -80,12 +82,44 @@ const Main = () => {
         }
     }
 
-    // Get Recent Winner
+    // Read Recent Winner
     const getRecentWinner = async () => {
         if (contract) {
             try {
-                const numOfPlayers = await contract.getRecentWinner()
-                return numOfPlayers.toString()
+                const recentWinner = await contract.getRecentWinner()
+                return recentWinner.toString()
+            } catch (error) {
+                console.error(error)
+            }
+        }
+    }
+
+    // Read Lottery State
+    const getLotteryState = async () => {
+        if (contract) {
+            try {
+                const lotteryState = await contract.getLotteryState()
+                console.log(typeOf(lotteryState))
+                console.log(lotteryState)
+                return lotteryState.toString()
+            } catch (error) {
+                console.error(error)
+            }
+        }
+    }
+
+    // Read players
+    const getPlayers = async () => {
+        if (contract) {
+            try {
+                const numOfPlayers = await getNumberOfPlayers()
+                const playersArray = []
+                for (let i = 0; i < numOfPlayers; i++) {
+                    const player = await contract.getPalyers(i) // Corrected to getPlayers
+                    playersArray.push(player)
+                }
+                setPlayers(playersArray)
+                setNumPlayers(playersList.length.toString())
             } catch (error) {
                 console.error(error)
             }
@@ -105,18 +139,23 @@ const Main = () => {
         fetchFee()
     }, [isConnected])
 
+    // Updating UI
     async function updateUI() {
         console.log("Updating UI...")
         try {
             if (isConnected) {
                 // const entranceFeeFromCall = await getEntranceFee()
-                const numPlayersFromCall = await getNumberOfPlayers()
+                // const numPlayersFromCall = await getNumberOfPlayers()
                 console.log("num players:", numPlayersFromCall)
                 const recentWinnerFromCall = await getRecentWinner()
+                const lotteryState = await getLotteryState()
 
                 // setEnteranceFee(entranceFeeFromCall)
-                setNumPlayers(numPlayersFromCall)
+                // setNumPlayers(numPlayersFromCall)
                 setRecentWinner(recentWinnerFromCall)
+                setLotteryStatus(lotteryState)
+
+                await getPlayers()
             }
         } catch (error) {
             console.log(error)
@@ -167,6 +206,7 @@ const Main = () => {
         }
     }
 
+    // Winner picked update
     useEffect(() => {
         if (contract) {
             const handleWinnerPicked = async (winner) => {
@@ -184,6 +224,11 @@ const Main = () => {
                 contract.off("WinnerPicked", handleWinnerPicked)
             }
         }
+    }, [contract])
+
+    // Player update
+    useEffect(() => {
+        getPlayers()
     }, [contract])
 
     return (
@@ -208,7 +253,8 @@ const Main = () => {
             </div>
 
             <div className="bg-violet-50">
-                <div className="bg-neutral-600 flex justify-start p-0">
+                {/* ENTER LOTTERY FEE */}
+                <div className=" flex justify-start p-0">
                     <div className="cards w-full lg:w-3/4 p-5 lg:p-10 my-5 ">
                         <div className="flex flex-row flex-1  gap-1">
                             <div className="flex-1 ">
@@ -235,7 +281,7 @@ const Main = () => {
                                     </>
                                 )}
                             </div>
-                            <div className="flex-1 flex items-center justify-center ">
+                            <div className="flex-1 flex items-start justify-center ">
                                 {isConnected ? (
                                     <button
                                         className="btn text-xl lg:text-4xl"
@@ -265,7 +311,7 @@ const Main = () => {
                             <p>
                                 The jackpot is sitting at{" "}
                                 <b>
-                                    <i > {enteranceFee ? `${enteranceFee} ETH` : "N/A"} </i>
+                                    <i> {enteranceFee ? `${enteranceFee} ETH` : "N/A"} </i>
                                 </b>
                                 ! Ready to take your shot?
                                 <br /> Click <b>"Buy Lottery"</b> to enter and seize your chance to
@@ -274,7 +320,9 @@ const Main = () => {
                         )}
                     </div>
                 </div>
-                <div className="bg-neutral-600 flex justify-end p-0">
+
+                {/* CHECK LOTTERY STATUS */}
+                <div className=" flex justify-end p-0">
                     <div className="cards w-full lg:w-3/4 lg:p-10 my-5 p-5 ">
                         <div className="flex flex-row flex-1  gap-1">
                             <div className="flex-1 ">
@@ -290,21 +338,23 @@ const Main = () => {
                                     </h3>
                                 ) : (
                                     <>
-                                        <h3 className="my-4 text-lg font-extrabold">
+                                        <h3 className="my-4 text-lg font-extrabold text-shadow ">
                                             <i>Curious About the Current Status?</i>
                                         </h3>
 
                                         <h4 className="text-lg pb-3">
                                             Lottery Status:{" "}
-                                            <b>{enteranceFee ? `${enteranceFee} ETH` : "N/A"}</b>
+                                            <b>{lotteryStatus === "0" ? `OPEN ` : "CLOSE"}</b>
                                         </h4>
                                     </>
-                                )}  
+                                )}
                             </div>
-                            <div className="flex-1 flex items-center justify-center ">
+                            <div className="flex-1 flex items-start justify-center ">
                                 {isConnected ? (
                                     showStatus ? (
-                                        <div>STATUS</div>
+                                        <div className="showCase">
+                                            {lotteryStatus === "0" ? `OPEN ` : "CLOSE"}
+                                        </div>
                                     ) : (
                                         <button
                                             className="btn text-xl lg:text-4xl"
@@ -328,58 +378,127 @@ const Main = () => {
                                 first. <br /> Once connected, you'll see if we're open for entries,
                                 drawing, or waiting for the next round!
                             </p>
-                        ) : (
+                        ) : !showStatus ? (
                             <p>
                                 Click the{" "}
                                 <b>
                                     <i>Lottery Status</i>
                                 </b>{" "}
-                                button to check if we’re open for entries, drawing, or waiting for
-                                the next round. Stay updated!
+                                button to check if... <br /> we’re open for entries, drawing, or
+                                waiting for the next round. Stay updated!
                             </p>
+                        ) : (
+                            ""
                         )}
                     </div>
                 </div>
-                <div className=" bg-slate-400 w-full my-5 relative">
-                    <div className="cards w-full lg:w-3/4 p-10 absolute lg:right-0">
-                        <h1 className="text-4xl text-yellow-200 ">Lottery Status</h1>
-                        <h3 className="my-5 text-2xl" style={{ fontFamily: "'Gorditas', serif" }}>
-                            How’s the Lottery Going?
-                        </h3>
-                        <p>
-                            Click on the <b>"Lottery Status"</b> button to see whether we're open
-                            for entries, in the process of drawing, or waiting for the next round.
-                            Stay informed and keep an eye on this space.
-                        </p>
+
+                {/* CHECK RECENT WINNER */}
+                <div className=" flex justify-start p-0">
+                    <div className="cards w-full lg:w-3/4 lg:p-10 my-5 p-5 ">
+                        <div className="flex flex-row flex-1  gap-1">
+                            <div className="flex-1 ">
+                                <h1 className="md:text-4xl text-yellow-200 text-xl">
+                                    Recent Champion
+                                </h1>
+                                {!isConnected ? (
+                                    <h3
+                                        className="my-5 text-2xl"
+                                        style={{ fontFamily: "'Gorditas', serif" }}
+                                    >
+                                        Connect to See the Latest Winner
+                                    </h3>
+                                ) : (
+                                    <>
+                                        <h3 className="my-4 text-lg font-extrabold text-shadow ">
+                                            <i>Who’s the Latest Lucky Winner?</i>
+                                        </h3>
+
+                                        {!recentWinner ? (
+                                            <h4 className="text-lg pb-3">
+                                                The Lucky Champ: <b>{recentWinner}</b>
+                                            </h4>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                        {!isConnected ? (
+                            <p>
+                                To find out who’s recently taken home the prize, connect your wallet
+                                first. <br /> Once you’re in, you’ll see who’s claimed the jackpot
+                                and maybe it’ll be your turn next!
+                            </p>
+                        ) : recentWinner ? (
+                            <p>
+                                    No one has claimed the prize just yet.
+                                    <br /> Maybe you’ll be the first to
+                                make it happen!
+                            </p>
+                        ) : (
+                            ""
+                        )}
                     </div>
                 </div>
-                <div className="cards bg-gray-300 text-center">
-                    <h1>Lottery Value</h1>
-                    <h3>What’s Up for Grabs?</h3>
-                    <p>
-                        Check out the current jackpot value. Your next big win could be just a
-                        ticket away! <br /> Click below to buy a lottery entry and get a chance to
-                        claim this prize.
-                    </p>
+
+                {/* CHECK LOTTERY STATUS */}
+                <div className=" flex justify-end p-0">
+                    <div className="cards w-full lg:w-3/4 lg:p-10 my-5 p-5 ">
+                        <div className="flex flex-row flex-1  gap-1">
+                            <div className="flex-1 ">
+                                <h1 className="md:text-4xl text-yellow-200 text-xl">
+                                    Participants
+                                </h1>
+                                {!isConnected ? (
+                                    <h3
+                                        className="my-5 text-2xl"
+                                        style={{ fontFamily: "'Gorditas', serif" }}
+                                    >
+                                        Connect to See Who’s Playing
+                                    </h3>
+                                ) : (
+                                    <>
+                                        <h3 className="my-4 text-lg font-extrabold text-shadow ">
+                                            <i>Connect to See Who’s Playing</i>
+                                        </h3>
+                                        <div className="players-container">
+                                            {players.length > 0 ? (
+                                                <ul>
+                                                    {players.map((playerAddress, index) => (
+                                                        <li key={index}>
+                                                            {index + 1}.  {playerAddress}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            ) : (
+                                                <p>No players have joined yet.</p>
+                                            )}
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                            <div className="flex-1 flex items-start justify-center ">
+                                {isConnected &&
+                                    players.length ? (
+                                        <div className="showCase">
+                                            {players.length} Player(s)
+                                        </div>
+                                    ) : ""}
+                            </div>
+                        </div>
+                        {!isConnected ? (
+                            <p>
+                                Check out the list of participants in this lottery round by
+                                connecting. It’s always exciting to see who’s in the game with you!
+                            </p>
+                        ) : (
+                            ""
+                        )}
+                    </div>
                 </div>
-                <div className="cards bg-gray-300 text-center">
-                    <h1>Lottery Value</h1>
-                    <h3>What’s Up for Grabs?</h3>
-                    <p>
-                        Check out the current jackpot value. Your next big win could be just a
-                        ticket away! Click below to buy a lottery entry and get a chance to claim
-                        this prize.
-                    </p>
-                </div>
-                <div className="cards bg-gray-300 text-center">
-                    <h1>Lottery Value</h1>
-                    <h3>What’s Up for Grabs?</h3>
-                    <p>
-                        Check out the current jackpot value. Your next big win could be just a
-                        ticket away! <br /> Click below to buy a lottery entry and get a chance to
-                        claim this prize.
-                    </p>
-                </div>
+
             </div>
         </main>
     )
