@@ -46,7 +46,7 @@ const Header = () => {
                                 key={id}
                                 // className=" rounded-xl p-3 text-sm font-serif font-semibold"
                             >
-                                <a href={item.path} className="block btn">
+                                <a href={item.path} className="block menu-btn">
                                     {item.title}
                                 </a>
                             </li>
