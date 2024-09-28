@@ -80,28 +80,34 @@ const Header = () => {
                     </div>
                 </div>
             )}
-            <div
-                className={`lg:hidden menu-slide ${isMenuOpen ? "open w-64  p-4 rounded-md mt-28 ml-3" : "hidden"} fixed top-0 left-0 w-full h-full bg-gray-800 p-4`}
-            >
-                <div className="flex justify-end mb-4">
-                    <button onClick={toggleMenu} className="">
-                        {" "}
-                        <Close></Close>
-                    </button>
+            {isMenuOpen && (
+                <div className="overlay" onClick={toggleMenu}>
+                    <div
+                        className={`lg:hidden menu-slide w-64  p-4 rounded-md mt-28 ml-3 fixed top-0 left-0 h-full bg-gray-800 `}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="flex justify-end mb-4">
+                            <button onClick={toggleMenu} className="">
+                                {" "}
+                                <Close></Close>
+                            </button>
+                        </div>
+                        <ul className="flex flex-col  gap-y-4">
+                            {navigation.map((item, id) => (
+                                <li
+                                    key={id}
+                                    className=" rounded-xl p-3 text-sm font-serif font-semibold text-white"
+                                    style={{ background: "#000014" }}
+                                >
+                                    <a href={item.path} className="block">
+                                        {item.title}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
-                <ul className="flex flex-col  gap-y-4">
-                    {navigation.map((item, id) => (
-                        <li
-                            key={id}
-                            className="bg-yellow-950 rounded-xl p-3 text-sm font-serif font-semibold"
-                        >
-                            <a href={item.path} className="block">
-                                {item.title}
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            )}
         </nav>
     )
 }

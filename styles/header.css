@@ -11,19 +11,38 @@
     
 }
 
-.menu-slide {
+.overlay {
     position: fixed;
     top: 0;
-    left: -300px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #00001434;
+    /* Semi-transparent dark background */
+    backdrop-filter: blur(2px);
+    /* Applies blur to the background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9998;
+    /* Ensure it's below the box but above all other elements */
+}
+
+.menu-slide {
+    position: absolute;
+    top: 0;
+    left: 0px;
     /* Start off-screen to the left */
     width: 300px;
     /* Adjust the width as needed */
-    height: 45%;
+    height: 50%;
     /* Full height */
-    background-color: rgba(250, 235, 215, 0.279);
+    background-color: rgb(250, 235, 215);
     transition: left 0.3s ease-out;
     /* Smooth sliding effect */
-    box-shadow: 0px 0px 10px 10px rgb(0, 0, 255);
+    box-shadow: 0px 0px 10px 10px rgba(12, 1, 56, 0.237);
+    z-index: 9999;
+    background-color: #eaeffc;
 
 }
 
