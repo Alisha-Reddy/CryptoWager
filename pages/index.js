@@ -7,7 +7,7 @@ import images from "@/images/index"
 
 export default function Home() {
     return (
-        <section className="App">
+        <section className="App ">
             <Head>
                 <title> CryptoWager </title>
                 

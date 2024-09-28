@@ -293,11 +293,9 @@ const Main = () => {
                                             await enterLottery()
                                         }}
                                     >
-                                        {isLoading || isFetching ? (
-                                            <div className="animate-spin spinner-border h-8 w-8 border-b-4 rounded-full"></div>
-                                        ) : (
-                                            "Buy Lottery"
-                                        )}
+                                        
+                                            Buy Lottery
+                                       
                                     </button>
                                 ) : (
                                     ""

@@ -3,8 +3,8 @@ import React from "react"
 const Instagram = () => {
     return (
         <svg
-            width="43px"
-            height="43px"
+            width="25px"
+            height="25px"
             viewBox="0 0 48 48"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

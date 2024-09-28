@@ -14,11 +14,17 @@ const Header = () => {
     const isLocalhost = account?.chainId === 31337
 
     const navigation = [
+        // { title: "Home", path: "/" },
+        // { title: "Learn More", path: "/learn-more" },
+        // { title: "About Me", path: "/about-us" },
+        // { title: "Contact", path: "/contact-us" },
+        // { title: "Feedback", path: "/contact-us" },
+
         { title: "Home", path: "/" },
-        { title: "Learn More", path: "/learn-more" },
-        { title: "About Me", path: "/about-us" },
-        { title: "Contact", path: "/contact-us" },
-        { title: "Feedback", path: "/contact-us" },
+        { title: "Learn More", path: "/" },
+        { title: "About Me", path: "/" },
+        { title: "Contact", path: "/" },
+        { title: "Feedback", path: "/" },
     ]
 
     const toggleMenu = (e) => {
@@ -29,7 +35,7 @@ const Header = () => {
         <nav style={{ background: "#000014" }}>
             <div className={`p-5 flex mt-0 ${isMenuOpen ? "border-b-2" : ""}`}>
                 <div className=" items-center gap-x-4 flex">
-                    <Image className="w-10 rounded-full" src={images.logo} alt="logo" />
+                    <Image className="w-12 " src={images.logo} alt="logo" />
                     <p className="name text-4xl text-yellow-200 ">C r y p t o W a g e r</p>
                 </div>
 
