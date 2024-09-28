@@ -99,7 +99,6 @@ const Main = () => {
         if (contract) {
             try {
                 const lotteryState = await contract.getLotteryState()
-                console.log(typeOf(lotteryState))
                 console.log(lotteryState)
                 return lotteryState.toString()
             } catch (error) {
@@ -115,11 +114,11 @@ const Main = () => {
                 const numOfPlayers = await getNumberOfPlayers()
                 const playersArray = []
                 for (let i = 0; i < numOfPlayers; i++) {
-                    const player = await contract.getPalyers(i) // Corrected to getPlayers
+                    const player = await contract.getPalyers(i) 
                     playersArray.push(player)
                 }
                 setPlayers(playersArray)
-                setNumPlayers(playersList.length.toString())
+                setNumPlayers(playersArray.length.toString())
             } catch (error) {
                 console.error(error)
             }
@@ -146,7 +145,7 @@ const Main = () => {
             if (isConnected) {
                 // const entranceFeeFromCall = await getEntranceFee()
                 // const numPlayersFromCall = await getNumberOfPlayers()
-                console.log("num players:", numPlayersFromCall)
+                // console.log("num players:", numPlayersFromCall)
                 const recentWinnerFromCall = await getRecentWinner()
                 const lotteryState = await getLotteryState()
 
@@ -181,7 +180,7 @@ const Main = () => {
                     value: feeInWei,
                     gasLimit: ethers.utils.hexlify(300000),
                 })
-                console.log("3")
+                console.log("tx:", tx)
                 const receipt = await tx.wait()
                 console.log("Transaction confirmed:", receipt)
                 updateUI()
@@ -293,9 +292,7 @@ const Main = () => {
                                             await enterLottery()
                                         }}
                                     >
-                                        
-                                            Buy Lottery
-                                       
+                                        Buy Lottery
                                     </button>
                                 ) : (
                                     ""
@@ -412,7 +409,7 @@ const Main = () => {
                                             <i>Who’s the Latest Lucky Winner?</i>
                                         </h3>
 
-                                        {!recentWinner ? (
+                                        {recentWinner !== "0" ? (
                                             <h4 className="text-lg pb-3">
                                                 The Lucky Champ: <b>{recentWinner}</b>
                                             </h4>
@@ -429,7 +426,7 @@ const Main = () => {
                                 first. <br /> Once you’re in, you’ll see who’s claimed the jackpot
                                 and maybe it’ll be your turn next!
                             </p>
-                        ) : recentWinner ? (
+                        ) : recentWinner === "0" ? (
                             <p>
                                 No one has claimed the prize just yet.
                                 <br /> Maybe you’ll be the first to make it happen!
@@ -457,11 +454,11 @@ const Main = () => {
                                     </h3>
                                 ) : (
                                     <>
-                                        <h3 className="my-4 text-lg font-extrabold text-shadow ">
+                                        <h3 className="my-2 text-lg font-extrabold text-shadow ">
                                             <i>Connect to See Who’s Playing</i>
                                         </h3>
                                         {isConnected ? (
-                                            <div className="players-container">
+                                            <div>
                                                 {players.length > 0 ? (
                                                     <ul>
                                                         {players.map((playerAddress, index) => (
