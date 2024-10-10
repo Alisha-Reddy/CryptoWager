@@ -14,12 +14,6 @@ const Header = () => {
     const isLocalhost = account?.chainId === 31337
 
     const navigation = [
-        // { title: "Home", path: "/" },
-        // { title: "Learn More", path: "/learn-more" },
-        // { title: "About Me", path: "/about-us" },
-        // { title: "Contact", path: "/contact-us" },
-        // { title: "Feedback", path: "/contact-us" },
-
         { title: "Home", path: "/" },
         { title: "Learn More", path: "/" },
         { title: "About Me", path: "/" },
@@ -44,7 +38,6 @@ const Header = () => {
                         {navigation.map((item, id) => (
                             <li
                                 key={id}
-                                // className=" rounded-xl p-3 text-sm font-serif font-semibold"
                             >
                                 <a href={item.path} className="block menu-btn">
                                     {item.title}
