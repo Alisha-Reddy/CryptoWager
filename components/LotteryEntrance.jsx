@@ -6,7 +6,6 @@ import { ethers } from "ethers"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-
 const LotteryEntrance = () => {
     const [contractAddress, setContractAddress] = useState(null)
     const [contract, setContract] = useState(null)
@@ -20,7 +19,6 @@ const LotteryEntrance = () => {
     const account = useAccount()
     const chainId = account.chainId
 
-    
     // Set contract address based on chainId
     useEffect(() => {
         if (chainId) {
@@ -34,7 +32,7 @@ const LotteryEntrance = () => {
             }
         }
     }, [chainId])
-    
+
     // Initialize contract instance
     useEffect(() => {
         if (typeof window !== "undefined" && window.ethereum && contractAddress) {
@@ -42,12 +40,11 @@ const LotteryEntrance = () => {
             const provider = new ethers.providers.Web3Provider(window.ethereum)
             const signer = provider.getSigner()
             const lotteryContract = new ethers.Contract(contractAddress, abi, signer)
-            
+
             setContract(lotteryContract)
             // console.log(contract)
         }
     }, [contractAddress])
-    
 
     // Fetch entrance fee from contract
     const getEntranceFee = async () => {
@@ -127,7 +124,7 @@ const LotteryEntrance = () => {
 
     // Enter lottery function with notifications
     const enterLottery = async () => {
-        if (contract) {
+        if (window.ethereum && contract) {
             try {
                 const feeInWei = ethers.utils.parseEther(enteranceFee)
                 console.log("Fee:", feeInWei.toString())
@@ -139,7 +136,7 @@ const LotteryEntrance = () => {
                         Waiting for confirmation...
                     </div>,
                 )
-                // console.log("2")
+                console.log("2")
                 const tx = await contract.enterLottery({
                     value: feeInWei,
                     gasLimit: ethers.utils.hexlify(300000),
