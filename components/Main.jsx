@@ -114,7 +114,7 @@ const Main = () => {
                 const numOfPlayers = await getNumberOfPlayers()
                 const playersArray = []
                 for (let i = 0; i < numOfPlayers; i++) {
-                    const player = await contract.getPalyers(i) 
+                    const player = await contract.getPalyers(i)
                     playersArray.push(player)
                 }
                 setPlayers(playersArray)
@@ -168,14 +168,14 @@ const Main = () => {
                 const feeInWei = ethers.utils.parseEther(enteranceFee)
                 console.log("Fee:", feeInWei.toString())
 
-                toast.info(
-                    <div>
-                        <strong>Transaction Submitted</strong>
-                        <br />
-                        Waiting for confirmation...
-                    </div>,
-                )
-                // console.log("2")
+                // toast.info(
+                //     <div>
+                //         <strong>Transaction Submitted</strong>
+                //         <br />
+                //         Waiting for confirmation...
+                //     </div>,
+                // )
+                console.log("2")
                 const tx = await contract.enterLottery({
                     value: feeInWei,
                     gasLimit: ethers.utils.hexlify(300000),
@@ -336,16 +336,9 @@ const Main = () => {
                                         Connect to Check the Status
                                     </h3>
                                 ) : (
-                                    <>
-                                        <h3 className="my-4 text-lg font-extrabold text-shadow ">
-                                            <i>Curious About the Current Status?</i>
-                                        </h3>
-
-                                        <h4 className="text-lg pb-3">
-                                            Lottery Status:{" "}
-                                            <b>{lotteryStatus === "0" ? `OPEN ` : "CLOSE"}</b>
-                                        </h4>
-                                    </>
+                                    <h3 className="my-4 text-lg font-extrabold text-shadow ">
+                                        <i>Curious About the Current Status?</i>
+                                    </h3>
                                 )}
                             </div>
                             <div className="flex-1 flex items-start justify-center ">
@@ -383,7 +376,9 @@ const Main = () => {
                                 waiting for the next round. Stay updated!
                             </p>
                         ) : (
-                            ""
+                            <h4 className="text-lg pb-3">
+                                Lottery Status: <b>{lotteryStatus === "0" ? `OPEN ` : "CLOSE"}</b>
+                            </h4>
                         )}
                     </div>
                 </div>
