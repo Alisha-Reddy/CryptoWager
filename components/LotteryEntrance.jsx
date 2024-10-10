@@ -129,13 +129,14 @@ const LotteryEntrance = () => {
                 const feeInWei = ethers.utils.parseEther(enteranceFee)
                 console.log("Fee:", feeInWei.toString())
 
-                toast.info(
-                    <div>
-                        <strong>Transaction Submitted</strong>
-                        <br />
-                        Waiting for confirmation...
-                    </div>,
-                )
+                // toast.info(
+                //     <div>
+                //         <strong>Transaction Submitted</strong>
+                //         <br />
+                //         Waiting for confirmation...
+                //     </div>,
+                // )
+
                 console.log("2")
                 const tx = await contract.enterLottery({
                     value: feeInWei,
